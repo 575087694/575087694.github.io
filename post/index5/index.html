@@ -1,0 +1,1363 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <base href="http://575087694.github.io/">
+  <title>5、Doom - JavaScript入门</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+  
+  <meta name="description" content="My short description">
+  <meta name="author" content="SmallLiu">
+  <meta itemprop="name" content="5、Doom - JavaScript入门">
+  <meta itemprop="description" content="My short description">
+  <meta itemprop="image" content="http://575087694.github.io/img/author.jpg">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@SmallLiu" />
+  <meta name="twitter:title" content="5、Doom - JavaScript入门" />
+  <meta name="twitter:description" content="My short description" />
+  
+  <link rel="shortcut icon" href="img/favicon.ico"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="highlight/styles/github.css">
+  <script src="highlight/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="font/hack/css/hack.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header>
+    <div>
+  
+  <div id="imglogo">
+    <a href="http://575087694.github.io/"><img src="http://575087694.github.io/img/logo.svg" alt="JavaScript入门" title="JavaScript入门"/></a>
+  </div>
+  
+  <div id="textlogo">
+    <h1 class="site-name"><a href="http://575087694.github.io/" title="JavaScript入门">JavaScript入门</a></h1>
+    <h2 class="blog-motto">subtitle</h2>
+  </div>
+  <div class="navbar"><a class="navbutton navmobile" href="#" title="menu"></a></div>
+  <nav class="animated">
+    <ul>
+      
+      <li><a href="/">首页</a></li>
+      
+      <li><a href="/about/">关于</a></li>
+      
+      <li>
+        <form class="search" method="get" action="https://www.google.com/search">
+          <div>
+            <input type="text" id="search" name="q" placeholder="搜索">
+          </div>
+        </form>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+  </header>
+  <div id="container">
+    <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody">
+    <header class="article-info clearfix">
+  <h1 itemprop="name">
+      <a href="http://575087694.github.io/post/index5/" title="5、Doom" itemprop="url">5、Doom</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://575087694.github.io/" title="SmallLiu">SmallLiu</a>
+    
+  </p>
+  <p class="article-time">
+    <time datetime="2014-01-27 05:04:40 &#43;0000 UTC" itemprop="datePublished">2014年01月27日</time>
+  </p>
+</header>
+
+	<div class="article-content">
+    
+    
+
+<h2 id="dom的概念:dd7fae954a9b447bf4fe5c78ba055278">DOM的概念</h2>
+
+<p>DOM是文档对象模型（Document Object Model）的简称，它的基本思想是把结构化文档（比如HTML和XML）解析成一系列的节点，再由这些节点组成一个树状结构（DOM Tree）。所有的节点和最终的树状结构，都有规范的对外接口，以达到使用编程语言操作文档的目的（比如增删内容）。所以，DOM可以理解成文档（HTML文档、XML文档和SVG文档）的编程接口。</p>
+
+<p>DOM有自己的国际标准，目前的通用版本是<a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html">DOM 3</a>，下一代版本<a href="http://www.w3.org/TR/dom/">DOM 4</a>正在拟定中。本章介绍的就是JavaScript对DOM标准的实现和用法。</p>
+
+<p>严格地说，DOM不属于JavaScript，但是操作DOM是JavaScript最常见的任务，而JavaScript也是最常用于DOM操作的语言。所以，DOM往往放在JavaScript里面介绍。</p>
+
+<h2 id="节点的概念:dd7fae954a9b447bf4fe5c78ba055278">节点的概念</h2>
+
+<p>DOM的最小组成单位叫做节点（node），一个文档的树形结构（DOM树），就是由各种不同类型的节点组成。</p>
+
+<p>对于HTML文档，节点主要有以下六种类型：Document节点、DocumentType节点、Element节点、Attribute节点、Text节点和DocumentFragment节点。</p>
+
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>名称</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Document</td>
+<td>文档节点</td>
+<td>整个文档（window.document）</td>
+</tr>
+
+<tr>
+<td>DocumentType</td>
+<td>文档类型节点</td>
+<td>文档的类型（比如&lt;!DOCTYPE html&gt;）</td>
+</tr>
+
+<tr>
+<td>Element</td>
+<td>元素节点</td>
+<td>HTML元素（比如&lt;body&gt;、&lt;a&gt;等）</td>
+</tr>
+
+<tr>
+<td>Attribute</td>
+<td>属性节点</td>
+<td>HTML元素的属性（比如class=&ldquo;right&rdquo;）</td>
+</tr>
+
+<tr>
+<td>Text</td>
+<td>文本节点</td>
+<td>HTML文档中出现的文本</td>
+</tr>
+
+<tr>
+<td>DocumentFragment</td>
+<td>文档碎片节点</td>
+<td>文档的片段</td>
+</tr>
+</tbody>
+</table>
+
+<p>浏览器原生提供一个Node对象，上表所有类型的节点都是Node对象派生出来的。也就是说，它们都继承了Node的属性和方法。</p>
+
+<h2 id="node节点的属性:dd7fae954a9b447bf4fe5c78ba055278">Node节点的属性</h2>
+
+<h3 id="nodename-nodetype:dd7fae954a9b447bf4fe5c78ba055278">nodeName，nodeType</h3>
+
+<p>nodeName属性返回节点的名称，nodeType属性返回节点的常数值。具体的返回值，可查阅下方的表格。</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>nodeName</th>
+<th>nodeType</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>DOCUMENT_NODE</td>
+<td>#document</td>
+<td>9</td>
+</tr>
+
+<tr>
+<td>ELEMENT_NODE</td>
+<td>大写的HTML元素名</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>ATTRIBUTE_NODE</td>
+<td>等同于Attr.name</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>TEXT_NODE</td>
+<td>#text</td>
+<td>3</td>
+</tr>
+
+<tr>
+<td>DOCUMENT_FRAGMENT_NODE</td>
+<td>#document-fragment</td>
+<td>11</td>
+</tr>
+
+<tr>
+<td>DOCUMENT_TYPE_NODE</td>
+<td>等同于DocumentType.name</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+
+<p>以<code>document</code>节点为例，它的<code>nodeName</code>属性等于<code>#document</code>，<code>nodeType</code>属性等于9。</p>
+
+<pre><code class="language-javascript">document.nodeName // &quot;#document&quot;
+document.nodeType // 9
+</code></pre>
+
+<p>通常来说，使用<code>nodeType</code>属性确定一个节点的类型，比较方便。</p>
+
+<pre><code class="language-javascript">document.querySelector('a').nodeType === 1
+// true
+
+document.querySelector('a').nodeType === Node.ELEMENT_NODE
+// true
+</code></pre>
+
+<p>上面两种写法是等价的。</p>
+
+<h3 id="ownerdocument-nextsibling-previoussibling-parentnode-parentelement:dd7fae954a9b447bf4fe5c78ba055278">ownerDocument，nextSibling，previousSibling，parentNode，parentElement</h3>
+
+<p>以下属性返回当前节点的相关节点。</p>
+
+<p><strong>（1）ownerDocument</strong></p>
+
+<p>ownerDocument属性返回当前节点所在的顶层文档对象，即document对象。</p>
+
+<pre><code class="language-javascript">var d = p.ownerDocument;
+d === document // true
+</code></pre>
+
+<p>document对象本身的ownerDocument属性，返回null。</p>
+
+<p><strong>（2）nextSibling</strong></p>
+
+<p>nextSibling属性返回紧跟在当前节点后面的第一个同级节点。如果当前节点后面没有同级节点，则返回null。注意，该属性还包括文本节点和评论节点。因此如果当前节点后面有空格，该属性会返回一个文本节点，内容为空格。</p>
+
+<pre><code class="language-javascript">var el = document.getElementById('div-01').firstChild;
+var i = 1;
+
+while (el) {
+  console.log(i + '. ' + el.nodeName);
+  el = el.nextSibling;
+  i++;
+}
+</code></pre>
+
+<p>上面代码遍历<code>div-01</code>节点的所有子节点。</p>
+
+<p><strong>（3）previousSibling</strong></p>
+
+<p>previousSibling属性返回当前节点前面的、距离最近的一个同级节点。如果当前节点前面没有同级节点，则返回null。</p>
+
+<pre><code class="language-javascript">// html代码如下
+// &lt;a&gt;&lt;b1 id=&quot;b1&quot;/&gt;&lt;b2 id=&quot;b2&quot;/&gt;&lt;/a&gt;
+
+document.getElementById(&quot;b1&quot;).previousSibling // null
+document.getElementById(&quot;b2&quot;).previousSibling.id // &quot;b1&quot;
+</code></pre>
+
+<p>对于当前节点前面有空格，则previoussibling属性会返回一个内容为空格的文本节点。</p>
+
+<p><strong>（4）parentNode</strong></p>
+
+<p>parentNode属性返回当前节点的父节点。对于一个节点来说，它的父节点只可能是三种类型：element节点、document节点和documentfragment节点。</p>
+
+<p>下面代码是如何从父节点移除指定节点。</p>
+
+<pre><code class="language-javascript">if (node.parentNode) {
+  node.parentNode.removeChild(node);
+}
+</code></pre>
+
+<p>对于document节点和documentfragment节点，它们的父节点都是null。另外，对于那些生成后还没插入DOM树的节点，父节点也是null。</p>
+
+<p><strong>（5）parentElement</strong></p>
+
+<p>parentElement属性返回当前节点的父Element节点。如果当前节点没有父节点，或者父节点类型不是Element节点，则返回null。</p>
+
+<pre><code class="language-javascript">if (node.parentElement) {
+  node.parentElement.style.color = &quot;red&quot;;
+}
+</code></pre>
+
+<p>上面代码设置指定节点的父Element节点的CSS属性。</p>
+
+<p>在IE浏览器中，只有Element节点才有该属性，其他浏览器则是所有类型的节点都有该属性。</p>
+
+<h3 id="textcontent-nodevalue:dd7fae954a9b447bf4fe5c78ba055278">textContent，nodeValue</h3>
+
+<p>以下属性返回当前节点的内容。</p>
+
+<p><strong>（1）textContent</strong></p>
+
+<p>textContent属性返回当前节点和它的所有后代节点的文本内容。</p>
+
+<pre><code class="language-javascript">// HTML代码为
+// &lt;div id=&quot;divA&quot;&gt;This is &lt;span&gt;some&lt;/span&gt; text&lt;/div&gt;
+
+document.getElementById(&quot;divA&quot;).textContent
+// This is some text
+</code></pre>
+
+<p>上面代码的textContent属性，自动忽略当前节点内部的HTML标签，返回所有文本内容。</p>
+
+<p>该属性是可读写的，设置该属性的值，会用一个新的文本节点，替换所有它原来的子节点。它还有一个好处，就是自动对HTML标签转义。这很适合用于用户提供的内容。</p>
+
+<pre><code class="language-javascript">document.getElementById('foo').textContent = '&lt;p&gt;GoodBye!&lt;/p&gt;';
+</code></pre>
+
+<p>上面代码在插入文本时，会将p标签解释为文本，即&amp;lt;p&amp;gt;，而不会当作标签处理。</p>
+
+<p>对于Text节点和Comment节点，该属性的值与nodeValue属性相同。对于其他类型的节点，该属性会将每个子节点的内容连接在一起返回，但是不包括Comment节点。如果一个节点没有子节点，则返回空字符串。</p>
+
+<p>document节点和doctype节点的textContent属性为null。如果要读取整个文档的内容，可以使用<code>document.documentElement.textContent</code>。</p>
+
+<p>在IE浏览器，所有Element节点都有一个innerText属性。它与textContent属性基本相同，但是有几点区别。</p>
+
+<ul>
+<li><p>innerText受CSS影响，textContent不受。比如，如果CSS规则隐藏（hidden）了某段文本，innerText就不会返回这段文本，textContent则照样返回。</p></li>
+
+<li><p>innerText返回的文本，会过滤掉空格、换行和回车键，textContent则不会。</p></li>
+
+<li><p>innerText属性不是DOM标准的一部分，Firefox浏览器甚至没有部署这个属性，而textContent是DOM标准的一部分。</p></li>
+</ul>
+
+<p><strong>（2）nodeValue</strong></p>
+
+<p>nodeValue属性返回或设置当前节点的值，格式为字符串。但是，该属性只对Text节点、Comment节点、XML文档的CDATA节点有效，其他类型的节点一律返回null。</p>
+
+<p>因此，nodeValue属性一般只用于Text节点。对于那些返回null的节点，设置nodeValue属性是无效的。</p>
+
+<h3 id="childnodes-firstnode-lastchild:dd7fae954a9b447bf4fe5c78ba055278">childNodes，firstNode，lastChild</h3>
+
+<p>以下属性返回当前节点的子节点。</p>
+
+<p><strong>（1）childNodes</strong></p>
+
+<p>childNodes属性返回一个NodeList集合，成员包括当前节点的所有子节点。注意，除了HTML元素节点，该属性返回的还包括Text节点和Comment节点。如果当前节点不包括任何子节点，则返回一个空的NodeList集合。由于NodeList对象是一个动态集合，一旦子节点发生变化，立刻会反映在返回结果之中。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>var ulElementChildNodes = document.querySelector(&lsquo;ul&rsquo;).childNodes;</p>
+
+<p>{% endhighlight %}</p>
+
+<p><strong>（2）firstNode</strong></p>
+
+<p>firstNode属性返回当前节点的第一个子节点，如果当前节点没有子节点，则返回null。注意，除了HTML元素子节点，该属性还包括文本节点和评论节点。</p>
+
+<p><strong>（3）lastChild</strong></p>
+
+<p>lastChild属性返回当前节点的最后一个子节点，如果当前节点没有子节点，则返回null。</p>
+
+<h3 id="baseuri:dd7fae954a9b447bf4fe5c78ba055278">baseURI</h3>
+
+<p>baseURI属性返回一个字符串，由当前网页的协议、域名和所在的目录组成，表示当前网页的绝对路径。如果无法取到这个值，则返回null。浏览器根据这个属性，计算网页上的相对路径的URL。该属性为只读。</p>
+
+<p>通常情况下，该属性由当前网址的URL（即window.location属性）决定，但是可以使用HTML的&lt;base&gt;标签，改变该属性的值。</p>
+
+<pre><code class="language-html">&lt;base href=&quot;http://www.example.com/page.html&quot;&gt;
+&lt;base target=&quot;_blank&quot; href=&quot;http://www.example.com/page.html&quot;&gt;
+</code></pre>
+
+<p>该属性不仅document对象有（<code>document.baseURI</code>），元素节点也有（<code>element.baseURI</code>）。通常情况下，它们的值是相同的。</p>
+
+<h2 id="node节点的方法:dd7fae954a9b447bf4fe5c78ba055278">Node节点的方法</h2>
+
+<h3 id="appendchild-haschildnodes:dd7fae954a9b447bf4fe5c78ba055278">appendChild()，hasChildNodes()</h3>
+
+<p>以下方法与子节点相关。</p>
+
+<p><strong>（1）appendChild()</strong></p>
+
+<p>appendChild方法接受一个节点对象作为参数，将其作为最后一个子节点，插入当前节点。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>var p = document.createElement(&ldquo;p&rdquo;);
+document.body.appendChild(p);</p>
+
+<p>{% endhighlight %}</p>
+
+<p>如果参数节点是文档中现有的其他节点，appendChild方法会将其从原来的位置，移动到新位置。</p>
+
+<p>hasChildNodes方法返回一个布尔值，表示当前节点是否有子节点。</p>
+
+<pre><code class="language-javascript">var foo = document.getElementById(&quot;foo&quot;);
+
+if ( foo.hasChildNodes() ) {
+  foo.removeChild( foo.childNodes[0] );
+}
+</code></pre>
+
+<p>上面代码表示，如果foo节点有子节点，就移除第一个子节点。</p>
+
+<p><strong>（2）hasChildNodes()</strong></p>
+
+<p>hasChildNodes方法结合firstChild属性和nextSibling属性，可以遍历当前节点的所有后代节点。</p>
+
+<pre><code class="language-javascript">function DOMComb (oParent, oCallback) {
+  if (oParent.hasChildNodes()) {
+    for (var oNode = oParent.firstChild; oNode; oNode = oNode.nextSibling) {
+      DOMComb(oNode, oCallback);
+    }
+  }
+  oCallback.call(oParent);
+}
+</code></pre>
+
+<p>上面代码的DOMComb函数的第一个参数是某个指定的节点，第二个参数是回调函数。这个回调函数会依次作用于指定节点，以及指定节点的所有后代节点。</p>
+
+<pre><code class="language-javascript">function printContent () {
+  if (this.nodeValue) {
+    console.log(this.nodeValue);
+  }
+}
+
+DOMComb(document.body, printContent);
+</code></pre>
+
+<h3 id="clonenode-insertbefore-removechild-replacechild:dd7fae954a9b447bf4fe5c78ba055278">cloneNode()，insertBefore()，removeChild()，replaceChild()</h3>
+
+<p>下面方法与节点操作有关。</p>
+
+<p><strong>（1）cloneNode()</strong></p>
+
+<p>cloneNode方法用于克隆一个节点。它接受一个布尔值作为参数，表示是否同时克隆子节点，默认是false，即不克隆子节点。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>var cloneUL = document.querySelector(&lsquo;ul&rsquo;).cloneNode(true);</p>
+
+<p>{% endhighlight %}</p>
+
+<p>需要注意的是，克隆一个节点，会拷贝该节点的所有属性，但是会丧失addEventListener方法和on-属性（即<code>node.onclick = fn</code>），添加在这个节点上的事件回调函数。</p>
+
+<p>克隆一个节点之后，DOM树有可能出现两个有相同ID属性（即<code>id=&quot;xxx&quot;</code>）的HTML元素，这时应该修改其中一个HTML元素的ID属性。</p>
+
+<p><strong>（2）insertBefore()</strong></p>
+
+<p>insertBefore方法用于将某个节点插入当前节点的指定位置。它接受两个参数，第一个参数是所要插入的节点，第二个参数是当前节点的一个子节点，新的节点将插在这个节点的前面。该方法返回被插入的新节点。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>var text1 = document.createTextNode(&lsquo;1&rsquo;);
+var li = document.createElement(&lsquo;li&rsquo;);
+li.appendChild(text1);</p>
+
+<p>var ul = document.querySelector(&lsquo;ul&rsquo;);
+ul.insertBefore(li,ul.firstChild);</p>
+
+<p>{% endhighlight %}</p>
+
+<p>上面代码在ul节点的最前面，插入一个新建的li节点。</p>
+
+<p>如果insertBefore方法的第二个参数为null，则新节点将插在当前节点的最后位置，即变成最后一个子节点。</p>
+
+<p>将新节点插在当前节点的最前面（即变成第一个子节点），可以使用当前节点的firstChild属性。</p>
+
+<pre><code class="language-javascript">parentElement.insertBefore(newElement, parentElement.firstChild);
+</code></pre>
+
+<p>上面代码中，如果当前节点没有任何子节点，<code>parentElement.firstChild</code>会返回null，则新节点会插在当前节点的最后，等于是第一个子节点。</p>
+
+<p>由于不存在insertAfter方法，如果要插在当前节点的某个子节点后面，可以用insertBefore方法结合nextSibling属性模拟。</p>
+
+<pre><code class="language-javascript">parentDiv.insertBefore(s1, s2.nextSibling);
+</code></pre>
+
+<p>上面代码可以将s1节点，插在s2节点的后面。如果s2是当前节点的最后一个子节点，则<code>s2.nextSibling</code>返回null，这时s1节点会插在当前节点的最后，变成当前节点的最后一个子节点，等于紧跟在s2的后面。</p>
+
+<p><strong>（3）removeChild()</strong></p>
+
+<p>removeChild方法接受一个子节点作为参数，用于从当前节点移除该节点。它返回被移除的节点。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>var divA = document.getElementById(&lsquo;A&rsquo;);
+divA.parentNode.removeChild(divA);</p>
+
+<p>{% endhighlight %}</p>
+
+<p>上面代码是如何移除一个指定节点。</p>
+
+<p>下面是如何移除当前节点的所有子节点。</p>
+
+<pre><code class="language-javascript">var element = document.getElementById(&quot;top&quot;);
+while (element.firstChild) {
+  element.removeChild(element.firstChild);
+}
+</code></pre>
+
+<p>被移除的节点依然存在于内存之中，但是不再是DOM的一部分。所以，一个节点移除以后，依然可以使用它，比如插入到另一个节点。</p>
+
+<p><strong>（4）replaceChild()</strong></p>
+
+<p>replaceChild方法用于将一个新的节点，替换当前节点的某一个子节点。它接受两个参数，第一个参数是用来替换的新节点，第二个参数将要被替换走的子节点。它返回被替换走的那个节点。</p>
+
+<pre><code class="language-javascript">replacedNode = parentNode.replaceChild(newChild, oldChild);
+</code></pre>
+
+<p>下面是一个例子。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>var divA = document.getElementById(&lsquo;A&rsquo;);
+var newSpan = document.createElement(&lsquo;span&rsquo;);
+newSpan.textContent = &lsquo;Hello World!&rsquo;;
+divA.parentNode.replaceChild(newSpan,divA);</p>
+
+<p>{% endhighlight %}</p>
+
+<p>上面代码是如何替换指定节点。</p>
+
+<h3 id="contains-comparedocumentposition-isequalnode:dd7fae954a9b447bf4fe5c78ba055278">contains()，compareDocumentPosition()，isEqualNode()</h3>
+
+<p>下面方法用于节点的互相比较。</p>
+
+<p><strong>（1）contains()</strong></p>
+
+<p>contains方法接受一个节点作为参数，返回一个布尔值，表示参数节点是否为当前节点的后代节点。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>document.body.contains(node)</p>
+
+<p>{% endhighlight %}</p>
+
+<p>上面代码检查某个节点，是否包含在当前文档之中。</p>
+
+<p>注意，如果将当前节点传入contains方法，会返回true。虽然从意义上说，一个节点不应该包含自身。</p>
+
+<pre><code class="language-javascript">nodeA.contains(nodeA) // true
+</code></pre>
+
+<p><strong>（2）compareDocumentPosition()</strong></p>
+
+<p>compareDocumentPosition方法的用法，与contains方法完全一致，返回一个7个比特位的二进制值，表示参数节点与当前节点的关系。</p>
+
+<table>
+<thead>
+<tr>
+<th>二进制值</th>
+<th>数值</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>000000</td>
+<td>0</td>
+<td>两个节点相同</td>
+</tr>
+
+<tr>
+<td>000001</td>
+<td>1</td>
+<td>两个节点不在同一个文档（即有一个节点不在当前文档）</td>
+</tr>
+
+<tr>
+<td>000010</td>
+<td>2</td>
+<td>参数节点在当前节点的前面</td>
+</tr>
+
+<tr>
+<td>000100</td>
+<td>4</td>
+<td>参数节点在当前节点的后面</td>
+</tr>
+
+<tr>
+<td>001000</td>
+<td>8</td>
+<td>参数节点包含当前节点</td>
+</tr>
+
+<tr>
+<td>010000</td>
+<td>16</td>
+<td>当前节点包含参数节点</td>
+</tr>
+
+<tr>
+<td>100000</td>
+<td>32</td>
+<td>浏览器的私有用途</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code class="language-javascript">// HTML代码为
+// &lt;div id=&quot;writeroot&quot;&gt;
+//   &lt;form&gt;
+//     &lt;input id=&quot;test&quot; /&gt;
+//   &lt;/form&gt;
+// &lt;/div&gt;
+
+var x = document.getElementById('writeroot');
+var y = document.getElementById('test');
+
+x.compareDocumentPosition(y) // 20
+y.compareDocumentPosition(x) // 10
+</code></pre>
+
+<p>上面代码中，节点x包含节点y，而且节点y在节点x的后面，所以第一个compareDocumentPosition方法返回20（010100），第二个compareDocumentPosition方法返回10（0010010）。</p>
+
+<p>由于compareDocumentPosition返回值的含义，定义在每一个比特位上，所以如果要检查某一种特定的含义，就需要使用比特位运算符。</p>
+
+<pre><code class="language-javascript">var head = document.head;
+var body = document.body;
+if (head.compareDocumentPosition(body) &amp; 4) {
+  console.log(&quot;文档结构正确&quot;);
+} else {
+  console.log(&quot;&lt;head&gt; 不能在 &lt;body&gt; 前面&quot;);
+}
+</code></pre>
+
+<p>上面代码中，compareDocumentPosition的返回值与4（又称掩码）进行与运算（&amp;），得到一个布尔值，表示head是否在body前面。</p>
+
+<p>在这个方法的基础上，可以部署一些特定的函数，检查节点的位置。</p>
+
+<pre><code class="language-javascript">Node.prototype.before = function (arg) {
+  return !!(this.compareDocumentPosition(arg) &amp; 2)
+}
+
+nodeA.before(nodeB)
+</code></pre>
+
+<p>上面代码在Node对象上部署了一个before方法，返回一个布尔值，表示参数节点是否在当前节点的前面。</p>
+
+<p><strong>（3）isEqualNode()</strong></p>
+
+<p>isEqualNode方法返回一个布尔值，用于检查两个节点是否相等。所谓相等的节点，指的是两个节点的类型相同、属性相同、子节点相同。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>var targetEl = document.getElementById(&ldquo;targetEl&rdquo;);
+var firstDiv = document.getElementsByTagName(&ldquo;div&rdquo;)[0];</p>
+
+<p>targetEl.isEqualNode(firstDiv)</p>
+
+<p>{% endhighlight %}</p>
+
+<h3 id="normalize:dd7fae954a9b447bf4fe5c78ba055278">normalize()</h3>
+
+<p>normailize方法用于清理当前节点内部的所有Text节点。它会去除空的文本节点，并且将毗邻的文本节点合并成一个。</p>
+
+<pre><code class="language-javascript">var wrapper = document.createElement(&quot;div&quot;);
+
+wrapper.appendChild(document.createTextNode(&quot;Part 1 &quot;));
+wrapper.appendChild(document.createTextNode(&quot;Part 2 &quot;));
+
+wrapper.childNodes.length // 2
+
+wrapper.normalize();
+
+wrapper.childNodes.length // 1
+</code></pre>
+
+<p>上面代码使用normalize方法之前，wrapper节点有两个Text子节点。使用normalize方法之后，两个Text子节点被合并成一个。</p>
+
+<p>该方法是<code>Text.splitText</code>的逆方法，可以查看《Text节点》章节，了解更多内容。</p>
+
+<h2 id="nodelist接口-htmlcollection接口:dd7fae954a9b447bf4fe5c78ba055278">NodeList接口，HTMLCollection接口</h2>
+
+<p>节点对象都是单个节点，但是有时会需要一种数据结构，能够容纳多个节点。DOM提供两种接口，用于部署这种节点的集合：NodeList接口和HTMLCollection接口。</p>
+
+<h3 id="nodelist接口:dd7fae954a9b447bf4fe5c78ba055278">NodeList接口</h3>
+
+<p>有些属性和方法返回的是一组节点，比如Node.childNodes、document.querySelectorAll()。它们返回的都是一个部署了NodeList接口的对象。</p>
+
+<p>NodeList接口有时返回一个动态集合，有时返回一个静态集合。所谓动态集合就是一个活的集合，DOM树删除或新增一个相关节点，都会立刻反映在NodeList接口之中。Node.childNodes返回的，就是一个动态集合。</p>
+
+<pre><code class="language-javascript">var parent = document.getElementById('parent');
+parent.childNodes.length // 2
+parent.appendChild(document.createElement('div'));
+parent.childNodes.length // 3
+</code></pre>
+
+<p>上面代码中，<code>parent.childNodes</code>返回的是一个部署了NodeList接口的对象。当parent节点新增一个子节点以后，该对象的成员个数就增加了1。</p>
+
+<p>document.querySelectorAll方法返回的是一个静态，DOM内部的变化，并不会实时反映在该方法的返回结果之中。</p>
+
+<p>NodeList接口提供length属性和数字索引，因此可以像数组那样，使用数字索引取出每个节点，但是它本身并不是数组，不能使用pop或push之类数组特有的方法。</p>
+
+<pre><code class="language-javascript">// 数组的继承链
+myArray --&gt; Array.prototype --&gt; Object.prototype --&gt; null
+
+// NodeList的继承链
+myNodeList --&gt; NodeList.prototype --&gt; Object.prototype --&gt; null
+</code></pre>
+
+<p>从上面的继承链可以看到，NodeList接口对象并不继承Array.prototype，因此不具有数组接口提供的方法。如果要在NodeList接口使用数组方法，可以将NodeList接口对象转为真正的数组。</p>
+
+<pre><code class="language-javascript">var div_list = document.querySelectorAll('div');
+var div_array = Array.prototype.slice.call(div_list);
+</code></pre>
+
+<p>也可以通过下面的方法调用。</p>
+
+<pre><code class="language-javascript">var forEach = Array.prototype.forEach;
+
+forEach.call(element.childNodes, function(child){
+  child.parentNode.style.color = '#0F0';
+});
+</code></pre>
+
+<p>上面代码让数组的forEach方法在NodeList接口对象上调用。</p>
+
+<p>不过，遍历NodeList接口对象的首选方法，还是使用for循环。</p>
+
+<pre><code class="language-javascript">for (var i = 0; i &lt; myNodeList.length; ++i) {
+  var item = myNodeList[i];
+}
+</code></pre>
+
+<p>不要使用for&hellip;in循环去遍历NodeList接口对象，因为for&hellip;in循环会将非数字索引的length属性和下面要讲到的item方法，也遍历进去，而且不保证各个成员遍历的顺序。</p>
+
+<p>ES6新增的for&hellip;of循环，也可以正确遍历NodeList接口对象。</p>
+
+<pre><code class="language-javascript">var list = document.querySelectorAll( 'input[type=checkbox]' );
+for (var item of list) {
+  item.checked = true;
+}
+</code></pre>
+
+<p>NodeList接口提供item方法，接受一个数字索引作为参数，返回该索引对应的成员。如果取不到成员，或者索引不合法，则返回null。</p>
+
+<pre><code class="language-javascript">nodeItem = nodeList.item(index)
+
+// 实例
+var divs = document.getElementsByTagName(&quot;div&quot;);
+var secondDiv = divs.item(1);
+</code></pre>
+
+<p>上面代码中，由于数字索引从零开始计数，所以取出第二个成员，要使用数字索引1。</p>
+
+<p>所有类似数组的对象，都可以使用方括号运算符取出成员，所以一般情况下，都是使用下面的写法，而不使用item方法。</p>
+
+<pre><code class="language-javascript">nodeItem = nodeList[index]
+</code></pre>
+
+<h3 id="htmlcollection接口:dd7fae954a9b447bf4fe5c78ba055278">HTMLCollection接口</h3>
+
+<p>HTMLCollection接口与NodeList接口类似，也是节点的集合，但是集合成员都是Element节点。该接口都是动态集合，节点的变化会实时反映在集合中。document.links、docuement.forms、document.images等属性，返回的都是HTMLCollection接口对象。</p>
+
+<p>部署了该接口的对象，具有length属性和数字索引，因此是一个类似于数组的对象。</p>
+
+<p>item方法根据成员的位置参数（从0开始），返回该成员。如果取不到成员或数字索引不合法，则返回null。</p>
+
+<pre><code class="language-javascript">
+var c = document.images;
+var img1 = c.item(10);
+
+// 等价于下面的写法
+var img1 = c[1];
+
+</code></pre>
+
+<p>namedItem方法根据成员的ID属性或name属性，返回该成员。如果没有对应的成员，则返回null。</p>
+
+<pre><code class="language-javascript">
+// HTML代码为
+// &lt;form id=&quot;myForm&quot;&gt;&lt;/form&gt;
+var elem = document.forms.namedItem(&quot;myForm&quot;);
+// 等价于下面的写法
+var elem = document.forms[&quot;myForm&quot;];
+
+</code></pre>
+
+<p>由于item方法和namedItem方法，都可以用方括号运算符代替，所以建议一律使用方括号运算符。</p>
+
+<h2 id="parentnode接口-childnode接口:dd7fae954a9b447bf4fe5c78ba055278">ParentNode接口，ChildNode接口</h2>
+
+<p>不同的节点除了继承Node接口以外，还会继承其他接口。ParentNode接口用于获取当前节点的Element子节点，ChildNode接口用于处理当前节点的子节点（包含但不限于Element子节点）。</p>
+
+<h3 id="parentnode接口:dd7fae954a9b447bf4fe5c78ba055278">ParentNode接口</h3>
+
+<p>ParentNode接口用于获取Element子节点。Element节点、Document节点和DocumentFragment节点，部署了ParentNode接口。凡是这三类节点，都具有以下四个属性，用于获取Element子节点。</p>
+
+<p><strong>（1）children</strong></p>
+
+<p>children属性返回一个动态的HTMLCollection集合，由当前节点的所有Element子节点组成。</p>
+
+<p>下面代码遍历指定节点的所有Element子节点。</p>
+
+<pre><code class="language-javascript">if (el.children.length) {
+  for (var i = 0; i &lt; el.children.length; i++) {
+    // ...
+  }
+}
+</code></pre>
+
+<p><strong>（2）firstElementChild</strong></p>
+
+<p>firstElementChild属性返回当前节点的第一个Element子节点，如果不存在任何Element子节点，则返回null。</p>
+
+<pre><code class="language-javascript">document.firstElementChild.nodeName
+// &quot;HTML&quot;
+</code></pre>
+
+<p>上面代码中，document节点的第一个Element子节点是&lt;HTML&gt;。</p>
+
+<p><strong>（3）lastElementChild</strong></p>
+
+<p>lastElementChild属性返回当前节点的最后一个Element子节点，如果不存在任何Element子节点，则返回null。</p>
+
+<pre><code class="language-javascript">document.lastElementChild.nodeName
+// &quot;HTML&quot;
+</code></pre>
+
+<p>上面代码中，document节点的最后一个Element子节点是&lt;HTML&gt;。</p>
+
+<p><strong>（4）childElementCount</strong></p>
+
+<p>childElementCount属性返回当前节点的所有Element子节点的数目。</p>
+
+<h3 id="childnode接口:dd7fae954a9b447bf4fe5c78ba055278">ChildNode接口</h3>
+
+<p>ChildNode接口用于处理子节点（包含但不限于Element子节点）。Element节点、DocumentType节点和CharacterData接口，部署了ChildNode接口。凡是这三类节点（接口），都可以使用下面四个方法。但是现实的情况是，除了第一个remove方法，目前没有浏览器支持后面三个方法。</p>
+
+<p><strong>（1）remove()</strong></p>
+
+<p>remove方法用于移除当前节点。</p>
+
+<pre><code class="language-javascript">el.remove()
+</code></pre>
+
+<p>上面方法在DOM中移除了el节点。注意，调用这个方法的节点，是被移除的节点本身，而不是它的父节点。</p>
+
+<p><strong>（2）before()</strong></p>
+
+<p>before方法用于在当前节点的前面，插入一个同级节点。如果参数是节点对象，插入DOM的就是该节点对象；如果参数是文本，插入DOM的就是参数对应的文本节点。</p>
+
+<p><strong>（3）after()</strong></p>
+
+<p>after方法用于在当前节点的后面，插入一个同级节点。如果参数是节点对象，插入DOM的就是该节点对象；如果参数是文本，插入DOM的就是参数对应的文本节点。</p>
+
+<p><strong>（4）replaceWith()</strong></p>
+
+<p>replaceWith方法使用参数指定的节点，替换当前节点。如果参数是节点对象，替换当前节点的就是该节点对象；如果参数是文本，替换当前节点的就是参数对应的文本节点。</p>
+
+<h2 id="html元素:dd7fae954a9b447bf4fe5c78ba055278">html元素</h2>
+
+<p>html元素是网页的根元素，document.documentElement就指向这个元素。</p>
+
+<p><strong>（1）clientWidth属性，clientHeight属性</strong></p>
+
+<p>这两个属性返回视口（viewport）的大小，单位为像素。所谓“视口”，是指用户当前能够看见的那部分网页的大小</p>
+
+<p>document.documentElement.clientWidth和document.documentElement.clientHeight，基本上与window.innerWidth和window.innerHeight同义。只有一个区别，前者不将滚动条计算在内（很显然，滚动条和工具栏会减小视口大小），而后者包括了滚动条的高度和宽度。</p>
+
+<p><strong>（2）offsetWidth属性，offsetHeight属性</strong></p>
+
+<p>这两个属性返回html元素的宽度和高度，即网页的总宽度和总高度。</p>
+
+<h3 id="dataset属性:dd7fae954a9b447bf4fe5c78ba055278">dataset属性</h3>
+
+<p><code>dataset</code>属性用于操作HTML标签元素的<code>data-*</code>属性。下面是一个有<code>data-*</code>属性的<code>div</code>节点。</p>
+
+<pre><code class="language-html">&lt;div id=&quot;myDiv&quot; data-id=&quot;myId&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<p>要读取<code>data-id</code>属性，可以从当前节点的<code>dataset.id</code>属性读取。</p>
+
+<pre><code class="language-javascript">var id = document.getElementById(&quot;myDiv&quot;).dataset.id;
+</code></pre>
+
+<p>要设置<code>data-id</code>属性，可以直接对<code>dataset.id</code>赋值。如果该属性不存在，将会被新建。</p>
+
+<pre><code class="language-javascript">document.getElementById('myDiv').dataset.id = 'hello';
+</code></pre>
+
+<p>删除一个<code>data-*</code>属性，可以直接使用<code>delete</code>命令。</p>
+
+<pre><code class="language-javascript">delete document.getElementById(&quot;myDiv&quot;).dataset.id;
+</code></pre>
+
+<p>除了<code>dataset</code>属性，也可以用<code>getAttribute('data-foo')</code>、<code>removeAttribute('data-foo')</code>、<code>setAttribute('data-foo')</code>、<code>hasAttribute('data-foo')</code>等方法操作<code>data-*</code>属性。</p>
+
+<p>需要注意的是，<code>dataset</code>属性使用骆驼拼写法表示属性名，这意味着<code>data-hello-world</code>会用<code>dataset.helloWorld</code>表示。而如果此时存在一个<code>data-helloWorld</code>属性，该属性将无法读取，也就是说，<code>data-*</code>属性本身只能使用连词号，不能使用骆驼拼写法。</p>
+
+<h3 id="tabindex属性:dd7fae954a9b447bf4fe5c78ba055278">tabindex属性</h3>
+
+<p><code>tabindex</code>属性用来指定，当前HTML元素节点是否被tab键遍历，以及遍历的优先级。</p>
+
+<pre><code class="language-javascript">var b1 = document.getElementById(&quot;button1&quot;);
+
+b1.tabIndex = 1;
+</code></pre>
+
+<p>如果 tabindex = -1 ，tab键跳过当前元素。</p>
+
+<p>如果 tabindex = 0 ，表示tab键将遍历当前元素。如果一个元素没有设置tabindex，默认值就是0。</p>
+
+<p>如果 tabindex 大于0，表示tab键优先遍历。值越大，就表示优先级越大。</p>
+
+<h3 id="页面位置相关属性:dd7fae954a9b447bf4fe5c78ba055278">页面位置相关属性</h3>
+
+<p><strong>（1）offsetParent属性、offsetTop属性和offsetLeft属性</strong></p>
+
+<p>这三个属性提供Element对象在页面上的位置。</p>
+
+<ul>
+<li>offsetParent：当前HTML元素的最靠近的、并且CSS的position属性不等于static的父元素。</li>
+<li>offsetTop：当前HTML元素左上角相对于offsetParent的垂直位移。</li>
+<li>offsetLeft：当前HTML元素左上角相对于offsetParent的水平位移。</li>
+</ul>
+
+<p>如果Element对象的父对象都没有将position属性设置为非static的值（比如absolute或relative），则offsetParent属性指向body元素。另外，计算offsetTop和offsetLeft的时候，是从边框的左上角开始计算，即Element对象的border宽度不计入offsetTop和offsetLeft。</p>
+
+<h3 id="style属性:dd7fae954a9b447bf4fe5c78ba055278">style属性</h3>
+
+<p>style属性用来读写页面元素的行内CSS属性，详见本章《CSS操作》一节。</p>
+
+<h3 id="element对象的方法:dd7fae954a9b447bf4fe5c78ba055278">Element对象的方法</h3>
+
+<p><strong>（1）选择子元素的方法</strong></p>
+
+<p>Element对象也部署了document对象的4个选择子元素的方法，而且用法完全一样。</p>
+
+<ul>
+<li>querySelector方法</li>
+<li>querySelectorAll方法</li>
+<li>getElementsByTagName方法</li>
+<li>getElementsByClassName方法</li>
+</ul>
+
+<p>上面四个方法只用于选择Element对象的子节点。因此，可以采用链式写法来选择子节点。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>document.getElementById(&lsquo;header&rsquo;).getElementsByClassName(&lsquo;a&rsquo;)</p>
+
+<p>{% endhighlight %}</p>
+
+<p>各大浏览器对这四个方法都支持良好，IE的情况如下：IE 6开始支持getElementsByTagName，IE 8开始支持querySelector和querySelectorAll，IE 9开始支持getElementsByClassName。</p>
+
+<p><strong>（2）elementFromPoint方法</strong></p>
+
+<p>该方法用于选择在指定坐标的最上层的Element对象。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>document.elementFromPoint(50,50)</p>
+
+<p>{% endhighlight %}</p>
+
+<p>上面代码了选中在(50,50)这个坐标的最上层的那个HTML元素。</p>
+
+<p><strong>（3）HTML元素的属性相关方法</strong></p>
+
+<ul>
+<li>hasAttribute()：返回一个布尔值，表示Element对象是否有该属性。</li>
+<li>getAttribute()</li>
+<li>setAttribute()</li>
+<li>removeAttribute()</li>
+</ul>
+
+<p><strong>（4）matchesSelector方法</strong></p>
+
+<p>该方法返回一个布尔值，表示Element对象是否符合某个CSS选择器。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>document.querySelector(&lsquo;li&rsquo;).matchesSelector(&lsquo;li:first-child&rsquo;)</p>
+
+<p>{% endhighlight %}</p>
+
+<p>这个方法需要加上浏览器前缀，需要写成mozMatchesSelector()、webkitMatchesSelector()、oMatchesSelector()、msMatchesSelector()。</p>
+
+<p><strong>（5）focus方法</strong></p>
+
+<p>focus方法用于将当前页面的焦点，转移到指定元素上。</p>
+
+<pre><code class="language-javascript">
+document.getElementById('my-span').focus();
+
+</code></pre>
+
+<h3 id="table元素:dd7fae954a9b447bf4fe5c78ba055278">table元素</h3>
+
+<p>表格有一些特殊的DOM操作方法。</p>
+
+<ul>
+<li><strong>insertRow()</strong>：在指定位置插入一个新行（tr）。</li>
+<li><strong>deleteRow()</strong>：在指定位置删除一行（tr）。</li>
+<li><strong>insertCell()</strong>：在指定位置插入一个单元格（td）。</li>
+<li><strong>deleteCell()</strong>：在指定位置删除一个单元格（td）。</li>
+<li><strong>createCaption()</strong>：插入标题。</li>
+<li><strong>deleteCaption()</strong>：删除标题。</li>
+<li><strong>createTHead()</strong>：插入表头。</li>
+<li><strong>deleteTHead()</strong>：删除表头。</li>
+</ul>
+
+<p>下面是使用JavaScript生成表格的一个例子。</p>
+
+<p>{% highlight javascript %}</p>
+
+<p>var table = document.createElement(&lsquo;table&rsquo;);
+var tbody = document.createElement(&lsquo;tbody&rsquo;);
+table.appendChild(tbody);</p>
+
+<p>for (var i = 0; i &lt;= 9; i++) {
+  var rowcount = i + 1;
+  tbody.insertRow(i);
+  tbody.rows[i].insertCell(0);
+  tbody.rows[i].insertCell(1);
+  tbody.rows[i].insertCell(2);
+  tbody.rows[i].cells[0].appendChild(document.createTextNode(&lsquo;Row &rsquo; + rowcount + &lsquo;, Cell 1&rsquo;));
+  tbody.rows[i].cells[1].appendChild(document.createTextNode(&lsquo;Row &rsquo; + rowcount + &lsquo;, Cell 2&rsquo;));
+  tbody.rows[i].cells[2].appendChild(document.createTextNode(&lsquo;Row &rsquo; + rowcount + &lsquo;, Cell 3&rsquo;));
+}</p>
+
+<p>table.createCaption();
+table.caption.appendChild(document.createTextNode(&lsquo;A DOM-Generated Table&rsquo;));</p>
+
+<p>document.body.appendChild(table);</p>
+
+<p>{% endhighlight %}</p>
+
+<p>这些代码相当易读，其中需要注意的就是insertRow和insertCell方法，接受一个表示位置的参数（从0开始的整数）。</p>
+
+<p>table元素有以下属性：</p>
+
+<ul>
+<li><strong>caption</strong>：标题。</li>
+<li><strong>tHead</strong>：表头。</li>
+<li><strong>tFoot</strong>：表尾。</li>
+<li><strong>rows</strong>：行元素对象，该属性只读。</li>
+<li><strong>rows.cells</strong>：每一行的单元格对象，该属性只读。</li>
+<li><strong>tBodies</strong>：表体，该属性只读。</li>
+</ul>
+
+<h2 id="参考链接:dd7fae954a9b447bf4fe5c78ba055278">参考链接</h2>
+
+<ul>
+<li>Louis Lazaris, <a href="http://coding.smashingmagazine.com/2013/10/06/inside-the-box-with-vanilla-javascript/">Thinking Inside The Box With Vanilla JavaScript</a></li>
+<li>David Walsh, <a href="http://davidwalsh.name/classlist">HTML5 classList API</a></li>
+<li>Derek Johnson, <a href="http://html5doctor.com/the-classlist-api/">The classList API</a></li>
+<li>Mozilla Developer Network, <a href="http://davidwalsh.name/element-dataset">element.dataset API</a></li>
+<li>David Walsh, <a href="http://davidwalsh.name/element-dataset">The element.dataset API</a></li>
+</ul>
+
+	</div>
+  <footer class="article-footer clearfix">
+  
+
+<div class="article-tags">
+  <span></span>
+  
+  <a href="/tags/development">Development</a>
+  
+  <a href="/tags/javascript">JavaScript</a>
+  
+</div>
+
+
+
+<div class="article-categories">
+  <span></span>
+  
+  <a class="article-category-link" href="/categories/development">Development</a>
+  
+  <a class="article-category-link" href="/categories/javascript">JavaScript</a>
+  
+</div>
+
+
+
+  <div class="article-share" id="share">
+    <div data-url="http://575087694.github.io/post/index5/" data-title="5、Doom" data-tsina="1816308191" class="share clearfix">
+    </div>
+  </div>
+</footer>
+
+	</article>
+  
+
+
+<section class="comment">
+<div id="disqus_thread"></div>
+</section>
+<script>
+
+
+var disqus_config = function () {
+this.page.url = "http://575087694.github.io/post/index5/";
+this.page.identifier = "http://575087694.github.io/post/index5/";
+};
+(function() { 
+var d = document, s = d.createElement('script');
+
+s.src = '//SmallLiu.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+    <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+  
+
+<div class="categorieslist">
+  <p class="asidetitle">分类</p>
+  <ul>
+    
+    <li><a href="http://575087694.github.io/categories/development" title="development">development<sup>11</sup></a></li>
+    
+    <li><a href="http://575087694.github.io/categories/javascript" title="javascript">javascript<sup>11</sup></a></li>
+    
+  </ul>
+</div>
+
+
+
+  
+
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+      
+			<li><a href="http://575087694.github.io/tags/development" title="development">development<sup>11</sup></a></li>
+      
+			<li><a href="http://575087694.github.io/tags/javascript" title="javascript">javascript<sup>11</sup></a></li>
+      
+		</ul>
+</div>
+
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle">归档</p>
+    <ul class="archive-list">
+      
+      
+      <li class="archive-list-item">
+        <a class="archive-list-link" href="http://575087694.github.io/post/#2014-01">2014年01月</a><span class="archive-list-count">11</span>
+      </li>
+      
+    </ul>
+
+  </div>
+
+
+  
+
+<div class="tagcloudlist">
+  <p class="asidetitle">标签云</p>
+  <div class="tagcloudlist clearfix">
+    
+    <a href="http://575087694.github.io/tags/development" style="font-size: 12px;">development</a>
+    
+    <a href="http://575087694.github.io/tags/javascript" style="font-size: 12px;">javascript</a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</aside>
+</div>
+
+  </div>
+  <footer><div id="footer" >
+  
+  <div class="line">
+    <span></span>
+    <div style='background:no-repeat url("http://575087694.github.io/img/author.jpg") left top;-webkit-background-size:6.875em 6.875em;-moz-background-size:6.875em 6.875em;background-size:6.875em 6.875em;' class="author" ></div>
+  </div>
+  
+  
+  <section class="info">
+    <p>Introduce1 <br/> Introduce2</p>
+  </section>
+  
+  <div class="social-font clearfix">
+    
+    <a href="http://weibo.com/SmallLiu" target="_blank" title="weibo"></a>
+    
+    
+    <a href="https://twitter.com/SmallLiu" target="_blank" title="twitter"></a>
+    
+    
+    <a href="https://github.com/SmallLiu" target="_blank" title="github"></a>
+    
+    
+    <a href="https://www.facebook.com/SmallLiu" target="_blank" title="facebook"></a>
+    
+    
+    <a href="https://www.linkedin.com/SmallLiu" target="_blank" title="linkedin"></a>
+    
+  </div>
+  <p class="copyright">Powered by <a href="http://gohugo.io" target="_blank" title="hugo">hugo</a> and Theme by <a href="https://github.com/coderzh/hugo-pacman-theme" target="_blank" title="hugo-pacman-theme">hugo-pacman-theme</a> © 2016
+    
+    <a href="http://575087694.github.io/" target="_blank" title="SmallLiu">SmallLiu</a>
+    
+  </p>
+</div>
+</footer>
+  <script src="http://575087694.github.io/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+done = false;
+$(document).ready(function(){
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize();
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  $('form.search').on('submit', function (event) {
+    if (false === done) {
+      event.preventDefault();
+      var orgVal = $(this).find('#search').val();
+      $(this).find('#search').val('site:http:\/\/575087694.github.io\/} ' + orgVal);
+      done = true;
+      $(this).submit();
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});
+</script>
+
+
+<link rel="stylesheet" href="http://575087694.github.io/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="http://575087694.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+});
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-10147768-2', 'auto');
+  ga('send', 'pageview');
+  $('#messagesbsb').remove();
+</script>
+
+
+
+</body>
+</html>
